@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        {{titulo}}
+        <h3>lista de tarefas</h3>
+        <input type="text" v-model="novaTarefa" placeholder="nova tarefa..." @keyup.enter="inseretarefa">
+        <button @click="inseretarefa">Inserir</button>
+        <button @click="editar=!editar">Editar</button>
+        <ul v-if="editar">
+            <li :class="{realizada: tarefa.realizada, prioritario: tarefa.prioritario}" v-for="tarefa in tarefas" >
+            <input type="text" v-model="tarefa.nome">
+            <input type="checkbox" v-model="tarefa.prioritario">
+
+            <input type="checkbox" v-model="tarefa.realizada">
+            </li>
+        </ul>
+
+        <ul v-if="!editar">
+            <li :class="{realizada: tarefa.realizada, prioritario: tarefa.prioritario}" v-for="tarefa in tarefas" >
+            {{tarefa.nome}}
+            </li>
+        </ul>
+    </div>
+
+
+    <style>
+        .realizada{
+            color:gray;
+            text-decoration: line-through;
+        }
+        .prioritario{
+            color: red;
+        }
+    </style>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script>
+    <script>
+        new Vue({
+            el:'#app',
+            data:{
+                titulo:'Hello World',
+                novaTarefa:'',
+                editar: false,
+                tarefas:[
+                    {nome:'a', prioritario:true, realizada:true},
+                    {nome:'b', prioritario:true, realizada:false},
+                    {nome:'c', prioritario:true, realizada:false},
+                    {nome:'d', prioritario:false, realizada:true},
+                ]
+            },
+            methods:{
+                inseretarefa: function(){
+                    if(!!this.novaTarefa){
+                        this.tarefas.push({nome:this.novaTarefa})
+                        this.novaTarefa=""
+                    }
+                }
+            }     
+        })
+    </script>
+
+</body>
+</html>
